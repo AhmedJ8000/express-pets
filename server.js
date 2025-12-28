@@ -12,15 +12,30 @@ mongoose.connection.on('count: %d',()=>{
 });
 
 // express
+
 express = require('express');
 
 const app = express();
+
+// controllers
+
+const petCtrl = require('./controllers/pets');
 
 // middleware
 const morgan = require('morgan');
 app.use(morgan('dev'));
 
 app.use(express.json());
+
+
+// Routes
+
+app.use('/pets', petCtrl);
+
+//Routes go HERE
+app.get('/', async (req, res) => {
+    res.json('success');
+});
 
 app.listen(3000, () => {
     console.log('The express app is ready!');
