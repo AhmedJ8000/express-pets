@@ -32,10 +32,6 @@ app.use(express.json());
 
 app.use('/pets', petCtrl);
 
-//Routes go HERE
-app.get('/', async (req, res) => {
-    res.json('success');
-});
 
 app.listen(3000, () => {
     console.log('The express app is ready!');

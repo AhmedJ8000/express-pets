@@ -12,12 +12,24 @@ const router = express.Router();
 
 // POST + /pets/
 router.post('/', async (req, res) => {
-    res.json(req.body);
+    try {
+        // use the model to insert data into DB
+        const pet = await Pet.create(req.body);
+        // respond new pet data
+        res.status(201).json({ pet });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: 'failed to create pet!' });
+    }
 });
 
 // GET + /pets/
 router.get('/', async (req, res) => {
-    res.json('success');
+    try {
+        res.json('success');
+    } catch (err) {
+
+    }
 });
 
 // export the router
