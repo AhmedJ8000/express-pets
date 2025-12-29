@@ -67,7 +67,7 @@ router.delete('/:id', async (req, res) => {
             res.status(404).json({ err: "Pet not found" });
         }
         else {
-        // Else send 200 msg to say deleted, use status 204 if you don't send any data
+            // Else send 200 msg to say deleted, use status 204 if you don't send any data
             res.status(200).json({ message: "Pet deleted successfully" });
         }
     } catch (err) {
@@ -75,6 +75,26 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ err: "Failed to delete pet" });
     }
 });
+
+// PUT + /pets/123
+router.put("/:id", async (req, res) => {
+    try {
+        // Get the id from the req.params
+        const { id } = req.params;
+        // Get the id of pet then delete it by its id 
+        const pet = await Pet.findByIdAndUpdate(id, req.body, {new: true});
+        // If the pet doesn't exist, send 404 msg 
+        if (!pet) {
+            res.status(404).json({ err: "Pet not found" });
+        } else {
+        // Else send 200 msg
+            res.status(200).json({ pet });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ err: "Failed to updated pet" });
+    }
+})
 
 // export the router
 module.exports = router;
