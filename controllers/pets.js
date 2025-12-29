@@ -34,6 +34,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET + /pets/123
 router.get('/:id', async (req, res) => {
     try {
         // Get the id from the req.params
@@ -54,19 +55,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// DELETE + /pets/123
 router.delete('/:id', async (req, res) => {
     try {
+        // Get the id from params
         const { id } = req.params;
-
+        // Get the id of pet then delete it by its id
         const pet = await Pet.findByIdAndDelete(id);
-
+        // If there is no pet, then send 404 error
         if (!pet) {
-            return res.status(404).json({ err: "Pet not found" });
+            res.status(404).json({ err: "Pet not found" });
         }
-
-        res.status(200).json({ message: "Pet deleted successfully", pet });
-    } catch (error) {
-        console.error(error);
+        else {
+        // Else send 200 msg to say deleted, use status 204 if you don't send any data
+            res.status(200).json({ message: "Pet deleted successfully" });
+        }
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ err: "Failed to delete pet" });
     }
 });
